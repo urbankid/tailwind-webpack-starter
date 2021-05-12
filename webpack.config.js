@@ -1,31 +1,26 @@
 const path = require("path");
-const webpack = require("webpack");
 
 module.exports = {
+  entry: path.resolve(__dirname, "src/app.js"),
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "main.js",
+  },
   module: {
     rules: [
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: [
           "style-loader",
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: {
-              postcssOptions: {
-                plugins: [
-                  [
-                    "postcss-preset-env",
-                    {
-                      // Options
-                    },
-                  ],
-                ],
-              },
-            },
-          },
+          { loader: "css-loader", options: { importLoaders: 1 } },
+          "postcss-loader",
         ],
       },
     ],
+  },
+  devServer: {
+    watchContentBase: true,
+    contentBase: path.resolve(__dirname, "dist"),
+    open: true,
   },
 };
